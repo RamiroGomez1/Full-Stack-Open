@@ -22,8 +22,8 @@ sequenceDiagram
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: new note crated with its content and date
+    server-->>browser: new note created with its content and date
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes
+    Note right of browser: Then the browser executes the callback function that renders the notes
 ```
