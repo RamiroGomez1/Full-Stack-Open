@@ -8,6 +8,6 @@ sequenceDiagram
     server-->>browser: 201 Created
     deactivate server
 
-    Note right of browser: This HTTP code means the request was successful and a new resource has been created.
+    Note right of browser: This HTTP Status code means the request was successful and a new resource has been created.
 
 ```
