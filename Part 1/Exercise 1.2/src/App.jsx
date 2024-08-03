@@ -1,9 +1,6 @@
 
 const Header = ({ course }) => {
 
-  console.log('prueba header')
-
-
   return (
     <>
       <h1>{course}</h1>
