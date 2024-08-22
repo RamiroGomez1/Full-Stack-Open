@@ -1,133 +1,79 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-
-
-const Button = ({ handleClick, text }) => {
+const Votes = ({ votes, selected }) => {
   return (
-    <button onClick={handleClick}>
-      {text}
-    </button>
+    <p>has {votes[selected]} votes</p>
   )
 }
 
-const StatisticLine = ({ review, text }) => {
+const Button = ({ handleClick, text}) => {
   return (
-
-    <tr>
-      <td>
-        {text}
-
-      </td>
-      <td>
-        {review}
-      </td>
-    </tr>
-
+    <div>
+      <button onClick={handleClick}>{text}</button>
+    </div>
   )
 }
 
-const Titles = ({ text }) => <h1>{text}</h1>
+const MaxNumberOfVotes = ({copyVotes, anecdotes}) => {
+  const maxNumber = Math.max(...copyVotes)
+  const maxNumberIndex = copyVotes.findIndex(vote => vote === maxNumber)
 
-const Average = ({ averageNumber }) => {
-  return (
-    <tr>
-      <td>
-        average
-      </td>
-      <td>
-        {averageNumber}
-      </td>
-    </tr>
-  )
-}
-
-
-const PositivePercentage = ({ positive, allClicks }) => {
-  const positive_percentage = (positive.length * 100) / allClicks.length
-
-  return (
-
-    <tr>
-      <td>
-        positive
-      </td>
-      <td>
-        {positive_percentage} %
-      </td>
-    </tr>
-
-  )
-}
-
-const Statistics = (props) => {
-  if (props.allClicks.length === 0) {
-    return (<div>No feedback given</div>)
-  }
-
-  return (
-
-    <table>
-      <StatisticLine text='good' review={props.good} />
-      <StatisticLine text='neutral' review={props.neutral} />
-      <StatisticLine text='bad' review={props.bad} />
-      <StatisticLine text='all' review={props.allClicks.length} />
-      <Average averageNumber={props.averageNumber} />
-      <PositivePercentage positive={props.positive} allClicks={props.allClicks} />
-    </table>
-
-  )
-}
-
-
-
-
-
-const App = () => {
-
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [allClicks, setAll] = useState([])
-  const [positive, setPositive] = useState([])
-
-  const [average, setAverage] = useState([])
-  const sum = average.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-  const averageNumber = sum / average.length
-
-
-
-  const handleGoodClick = () => {
-    setAll(allClicks.concat('good'))
-    setPositive(positive.concat('+'))
-    setAverage(average.concat(1))
-    const updatedGood = good + 1
-    setGood(updatedGood)
-  }
-
-  const handleNeutralClick = () => {
-    setAll(allClicks.concat('neutral'))
-    setAverage(average.concat(0))
-    const updatedNeutral = neutral + 1
-    setNeutral(updatedNeutral)
-  }
-
-  const handleBadClick = () => {
-    setAll(allClicks.concat('bad'))
-    setAverage(average.concat(-1))
-    const updatedBad = bad + 1
-    setBad(updatedBad)
-  }
-
-  const statisticsProps = { positive, allClicks, averageNumber, bad, good, neutral }
+  if (maxNumber === 0) return (<div>No most voted anecdote</div>)
 
   return (
     <div>
-      <Titles text='Give Feedback' />
-      <Button handleClick={handleGoodClick} text='good' />
-      <Button handleClick={handleNeutralClick} text='neutral' />
-      <Button handleClick={handleBadClick} text='bad' />
-      <Titles text='Statistics' />
-      <Statistics {...statisticsProps} />
+      <h1>
+        Anecdote with most votes
+      </h1>
+      <p>
+        {anecdotes[maxNumberIndex]}
+      </p>
+      <p>
+        has {maxNumber} votes
+      </p>
+    </div>
+  )
+}
+
+
+const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
+
+  const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+
+
+  
+  const nextAnecdote = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length)
+    const newSelected = randomIndex
+    setSelected(newSelected)
+  }
+
+  const voteAnecdote = () => {
+    const copyVotes = [...votes]
+    copyVotes[selected] += 1
+    setVotes(copyVotes)
+    return copyVotes
+  }
+
+  return (
+    <div>
+      <h1>Anecdote of the day</h1>
+      {anecdotes[selected]}
+      <Votes selected={selected} votes={votes}/>
+      <Button handleClick={nextAnecdote} text='next anecdote' />
+      <Button handleClick={voteAnecdote} text='vote anecdote' />
+      <MaxNumberOfVotes copyVotes={[...votes]} anecdotes={anecdotes} />
     </div>
   )
 }
