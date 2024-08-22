@@ -14,6 +14,28 @@ const Button = ({ handleClick, text}) => {
   )
 }
 
+const MaxNumberOfVotes = ({copyVotes, anecdotes}) => {
+  const maxNumber = Math.max(...copyVotes)
+  const maxNumberIndex = copyVotes.findIndex(vote => vote === maxNumber)
+
+  if (maxNumber === 0) return (<div>No most voted anecdote</div>)
+
+  return (
+    <div>
+      <h1>
+        Anecdote with most votes
+      </h1>
+      <p>
+        {anecdotes[maxNumberIndex]}
+      </p>
+      <p>
+        has {maxNumber} votes
+      </p>
+    </div>
+  )
+}
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -41,15 +63,17 @@ const App = () => {
     const copyVotes = [...votes]
     copyVotes[selected] += 1
     setVotes(copyVotes)
-    console.log(copyVotes)
+    return copyVotes
   }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
       <Votes selected={selected} votes={votes}/>
       <Button handleClick={nextAnecdote} text='next anecdote' />
       <Button handleClick={voteAnecdote} text='vote anecdote' />
+      <MaxNumberOfVotes copyVotes={[...votes]} anecdotes={anecdotes} />
     </div>
   )
 }
