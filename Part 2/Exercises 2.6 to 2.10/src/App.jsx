@@ -14,17 +14,17 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-
+  
   const handleAddPerson = (event) => {
     event.preventDefault()
     const isAlreadyAdded = persons.some(x => x.name === newName)
     isAlreadyAdded
-      ? alert(`${newName} is already added to phonebook`)
-      : addName();
+    ? alert(`${newName} is already added to phonebook`)
+    : addName();
   }
-
+  
   const addName = () => {
-
+    
     const nameObject = {
       name: newName,
       number: newNumber
@@ -33,9 +33,9 @@ const App = () => {
     setNewName('')
     setNewNumber('')
   }
-
+  
   const logPersons = () => console.log(persons)
-
+  
   const handleNameChange = (event) => {
     event.preventDefault()
     setNewName(event.target.value)
@@ -46,10 +46,22 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+
+  const [newSearch, setNewSearch] = useState('')
+  
+  const handleSearchBarChange = (event) => {
+    event.preventDefault()
+    const newValue = event.target.value
+    setNewSearch(newValue)
+    console.log(newValue)
+  }
+  
   return (
     <div>
       <h2>Phonebook</h2>
+      <input value={newSearch} onChange={handleSearchBarChange} />
 
+      <h2>Add a new contact</h2>
       <form onSubmit={handleAddPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -61,7 +73,6 @@ const App = () => {
           <button type='submit'>add</button>
         </div>
       </form>
-
       <button onClick={logPersons}>log array</button>
 
       <h2>Numbers</h2>
