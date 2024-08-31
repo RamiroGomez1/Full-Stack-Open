@@ -1,10 +1,58 @@
 import { useState } from 'react'
 
-const Numbers = ({ persons }) => {
+
+
+
+
+
+const Filter = ({ newSearch, filteredNames, handleSearchBarChange }) => {
+
   return (
-    <li>{persons.name}</li>
+    <div>
+      <input placeholder='Search a name' value={newSearch} onChange={handleSearchBarChange} />
+
+
+      <ul>
+
+        {newSearch &&
+          <ul>
+            {filteredNames.map((item, index) =>
+            (<li key={index}>
+              {item.name} {item.number}
+            </li>)
+            )}
+          </ul>
+        }
+
+      </ul>
+    </div>
   )
 }
+
+
+const NewPersonForm = ({ handleAddPerson, newName, handleNameChange, newNumber, handleNumberChange }) => {
+  return (
+    <div>
+
+      <form onSubmit={handleAddPerson}>
+        <div>
+          name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
+        </div>
+        <div>
+          <button type='submit'>add</button>
+        </div>
+      </form>
+
+    </div>
+  )
+}
+
+const Persons = ({persons}) => <div><ul>{persons.map(x => <li>{x.name} {x.number}</li>)}</ul></div>
+
+
 
 const App = () => {
 
@@ -55,7 +103,6 @@ const App = () => {
     event.preventDefault()
     const newValue = event.target.value
     setNewSearch(newValue)
-    console.log(newValue)
   }
 
   const filteredNames = persons.filter(person =>
@@ -67,39 +114,14 @@ const App = () => {
 
       <h2>Phonebook</h2>
 
-      <input placeholder='Search a name' value={newSearch} onChange={handleSearchBarChange} />
-
-      {newSearch &&
-        <ul>
-          {filteredNames.map((item, index) =>
-          (<li key={index}>
-            {item.name} {item.number}
-          </li>)
-          )}
-        </ul>
-      }
+      <Filter newSearch={newSearch} filteredNames={filteredNames} handleSearchBarChange={handleSearchBarChange} />
 
       <h2>Add a new contact</h2>
-      <form onSubmit={handleAddPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
-      <button onClick={logPersons}>log array</button>
+
+      <NewPersonForm handleAddPerson={handleAddPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
 
       <h2>Numbers</h2>
-      <div>
-        <ul>
-          {persons.map(x => <li>{x.name} {x.number}</li>)}
-        </ul>
-      </div>
-
+      <Persons persons={persons}/>
     </div>
   )
 }
