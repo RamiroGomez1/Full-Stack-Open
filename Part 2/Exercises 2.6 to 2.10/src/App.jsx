@@ -1,64 +1,14 @@
 import { useState } from 'react'
 
+import NewPersonForm from './components/NewPersonForm'
 
+import Persons from './components/Persons'
 
-
-
-
-const Filter = ({ newSearch, filteredNames, handleSearchBarChange }) => {
-
-  return (
-    <div>
-      <input placeholder='Search a name' value={newSearch} onChange={handleSearchBarChange} />
-
-
-      <ul>
-
-        {newSearch &&
-          <ul>
-            {filteredNames.map((item, index) =>
-            (<li key={index}>
-              {item.name} {item.number}
-            </li>)
-            )}
-          </ul>
-        }
-
-      </ul>
-    </div>
-  )
-}
-
-
-const NewPersonForm = ({ handleAddPerson, newName, handleNameChange, newNumber, handleNumberChange }) => {
-  return (
-    <div>
-
-      <form onSubmit={handleAddPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
-
-    </div>
-  )
-}
-
-const Persons = ({persons}) => <div><ul>{persons.map(x => <li>{x.name} {x.number}</li>)}</ul></div>
-
-
+import Filter from './components/Filter'
 
 const App = () => {
 
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ])
+  const [persons, setPersons] = useState([])
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
