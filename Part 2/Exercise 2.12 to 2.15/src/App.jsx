@@ -92,6 +92,17 @@ const App = () => {
     const newValue = event.target.value
     setNewSearch(newValue)
   }
+  
+  const deletePersonData = (id) => {
+    event.preventDefault()
+
+    persons_data
+      .del(id)
+      .then( response => setPersons(persons.filter(person => person.id !== id)))
+      .catch(error => {
+        console.error("Error deleting person:", error);
+      })
+  }
 
   const filteredNames = persons.filter(person =>
     person.name.toLowerCase().includes(newSearch.toLowerCase())
@@ -110,7 +121,7 @@ const App = () => {
       <NewPersonForm handleAddPerson={handleAddPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
 
       <h2>Numbers</h2>
-      <Persons persons={persons} />
+      <Persons persons={persons} deletePersonData={deletePersonData} />
     </div>
   )
 
