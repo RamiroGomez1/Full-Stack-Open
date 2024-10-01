@@ -37,12 +37,28 @@ const App = () => {
       return;
     }
 
+const alreadyAddedName_changeNumber = (id) => {
+
+  const person = persons.find(x => x.id === id)
+  const changedName_array = {...person, number: newNumber }
+
+  if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
+    persons_data
+    .changeNumber(id, changedName_array)
+    .then(returnedPerson => {
+      setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+      setNewName('')
+      setNewNumber('')
+    })
+  }  
+}
+
+  const personToUpdate = persons.find(x => x.name === newName);
 
     const isAlreadyAdded = persons.some(x => x.name === newName)
     isAlreadyAdded
-      ? alert(`${newName} is already added to phonebook`)
+      ? alreadyAddedName_changeNumber(personToUpdate.id)
       : addName();
-
   }
 
   const addName = () => {
