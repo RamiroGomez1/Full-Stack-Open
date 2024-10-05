@@ -1,0 +1,29 @@
+h3 {
+    color: green;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.message {
+    color: green;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: opacity 0.5s ease-out;
+}
+
+.error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: opacity 0.5s ease-out;
+}
