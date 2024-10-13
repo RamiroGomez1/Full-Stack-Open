@@ -1,4 +1,4 @@
-const Notification = ({message}) => {
+const Notification = ({message, filteredNames}) => {
 
     if(message === null) {
         return null

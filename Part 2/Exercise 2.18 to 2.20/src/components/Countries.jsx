@@ -1,5 +1,10 @@
+
 const Countries = ({ filteredNames }) => {
+
+    if (filteredNames.length > 10) return null
+
     return (
+
         <div>
             <ul>
                 {filteredNames.map((x, index) =>
